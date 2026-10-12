@@ -1,6 +1,6 @@
 /* No Saints Kitchen Checks: offline support. App files are cached; database calls always go to the network. */
 var VERSION="ns-v1";
-var SHELL=["./","index.html","store.js","config.js","manifest.webmanifest","icons/apple-touch-icon.png","icons/icon-192.png","icons/icon-512.png"];
+var SHELL=["./","index.html","store.js","config.js","manifest.webmanifest","apple-touch-icon.png","icon-192.png","icon-512.png"];
 var CDN=["https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"];
 self.addEventListener("install",function(e){e.waitUntil(caches.open(VERSION).then(function(c){return c.addAll(SHELL).then(function(){return Promise.all(CDN.map(function(u){return fetch(u,{mode:"cors"}).then(function(r){if(r.ok)return c.put(u,r)}).catch(function(){})}))})}).then(function(){return self.skipWaiting()}))});
 self.addEventListener("activate",function(e){e.waitUntil(caches.keys().then(function(ks){return Promise.all(ks.filter(function(k){return k!==VERSION}).map(function(k){return caches.delete(k)}))}).then(function(){return self.clients.claim()}))});
